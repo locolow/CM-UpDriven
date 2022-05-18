@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "553924644830",
+    "project_id": "trabalhocm-d3be1",
+    "storage_bucket": "trabalhocm-d3be1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553924644830:android:a385ad6e7b1be5b486974f",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553924644830-lao0k18a0r2cpk3nv0kfgimnq8vhud8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI-C01xxZ6qSqlHnhn9l70pcXQbEP_HvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553924644830-lao0k18a0r2cpk3nv0kfgimnq8vhud8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
