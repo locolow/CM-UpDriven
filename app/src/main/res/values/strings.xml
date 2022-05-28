@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="login">Login</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_your_password">Password</string>
+    <string name="enter_your_username">Username</string>
+    <string name="enter_your_name">Name</string>
     <string name="register">Register</string>
+    <string name="welcome">Welcome to upDriven</string>
+    <string name="not_a_member_register_here">Not a member ? Register</string>
+    <string name="nav_open">Nav open</string>
+    <string name="nav_close">Nav close</string>
 </resources>

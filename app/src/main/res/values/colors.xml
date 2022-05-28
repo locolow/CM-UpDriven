@@ -11,4 +11,6 @@
     <color name="light_gray">#9A9A9A</color>
     <color name="magenta">#FF6969</color>
     <color name="main_color">#5e605f</color>
+    <color name="nav_color">#D3D0D0</color>
+    <color name="underLine">#FD3E3E</color>
 </resources>

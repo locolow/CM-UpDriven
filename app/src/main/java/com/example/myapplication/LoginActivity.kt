@@ -18,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnRegister.setOnClickListener {
+        binding.here.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 

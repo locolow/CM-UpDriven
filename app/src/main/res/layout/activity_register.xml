@@ -10,8 +10,9 @@
     tools:context=".RegisterActivity">
 
     <ImageView
-        android:src="@drawable/ic_person"
+        android:src="@drawable/updriven"
         android:id="@+id/image"
+        android:background="@color/white"
         android:layout_width="0dp"
         android:layout_height="192dp"
         android:layout_marginStart="32dp"
@@ -22,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clEmail"
+        android:id="@+id/clDeparture"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -51,8 +52,9 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:hint="Enter your Email"
+            android:hint="@string/enter_email"
             android:textColorHint="@color/light_gray"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imgEmail"
@@ -69,7 +71,7 @@
         android:background="@drawable/bg_white_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clEmail">
+        app:layout_constraintTop_toBottomOf="@id/clDeparture">
 
         <ImageView
             android:id="@+id/imgPassword"
@@ -89,7 +91,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:hint="Enter your Password"
+            android:hint="@string/enter_your_password"
+            android:textColor="@color/black"
             android:textColorHint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +130,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:hint="Enter your Username"
+            android:hint="@string/enter_your_username"
+            android:textColor="@color/black"
             android:textColorHint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -165,7 +169,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:hint="Enter your Name"
+            android:hint="@string/enter_your_name"
+            android:textColor="@color/black"
             android:textColorHint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -182,15 +187,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/bg_round_button"
-        android:text="Register"
+        android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/clName" />
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

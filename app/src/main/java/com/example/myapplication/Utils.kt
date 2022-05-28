@@ -11,4 +11,8 @@ object Utils {
         val database = FirebaseDatabase.getInstance(DB_URL).getReference("Users")
         database.child(userUid).setValue(user)
     }
+
+    fun writeNewTrip(date: String){
+        val trip = date
+    }
 }
