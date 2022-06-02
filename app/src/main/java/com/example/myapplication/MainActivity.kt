@@ -97,19 +97,21 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvUsername).text = userLocal.username
             findViewById<TextView>(R.id.tvEmail).text = userLocal.email
         }
-
         //GET IMAGE TO NAV HEADER
         //get Reference to where image is
         val storageRef = FirebaseStorage.getInstance().reference.child("myImages/$userUid")
+        val defaultRef = FirebaseStorage.getInstance().reference.child("myImages/ccam.PNG")
 
         //Store in tempfile
         val localfile = File.createTempFile("tempImage","jpeg")
-
+        val localDefault = File.createTempFile("defaultImage","png")
         //wait for image to load
+
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Fetchin image..")
         progressDialog.setCancelable(false)
         progressDialog.show()
+
 
         //Get the right id, not using this gets null pointer
         val header = navView.getHeaderView(0) as LinearLayout
@@ -117,18 +119,17 @@ class MainActivity : AppCompatActivity() {
 
         //actual code for gettin image
         storageRef.getFile(localfile).addOnSuccessListener {
-
             if(progressDialog.isShowing)
                 progressDialog.dismiss()
             val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
             profileImage.setImageBitmap(bitmap)
 
         }.addOnFailureListener{
-                Toast.makeText(this,"Failed ! Cant get image",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Failed ! Cant get image",Toast.LENGTH_SHORT).show()
             if(progressDialog.isShowing)
                 progressDialog.dismiss()
-        }
-
+                profileImage
+                }
 
         //LOGOUT
         binding.btnLogout.setOnClickListener { logout() }
