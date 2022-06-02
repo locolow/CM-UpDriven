@@ -172,3 +172,4 @@ class MainActivity : AppCompatActivity() {
 }
 
 //Initial Commit
+//Fix Image + Register
