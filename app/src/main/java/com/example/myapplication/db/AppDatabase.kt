@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 
-@Database(version = 1, exportSchema = false, entities = arrayOf(
+@Database(version = 2, exportSchema = false, entities = arrayOf(
     UserEntity::class,
     TripEntity::class
 ))

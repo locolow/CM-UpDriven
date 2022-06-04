@@ -3,7 +3,6 @@ package com.example.myapplication.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.myapplication.Localization
 import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "User")

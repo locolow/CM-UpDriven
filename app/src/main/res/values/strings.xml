@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">UpDriven</string>
     <string name="login">Login</string>
     <string name="enter_email">Email</string>
     <string name="enter_your_password">Password</string>
@@ -10,4 +10,8 @@
     <string name="not_a_member_register_here">Not a member ? Register</string>
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
+    <string name="choose_departure">Choose Departure</string>
+    <string name="choose_destination">Choose Destination</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="choose_time">Choose Time</string>
 </resources>

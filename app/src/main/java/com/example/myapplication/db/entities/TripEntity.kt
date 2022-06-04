@@ -3,7 +3,6 @@ package com.example.myapplication.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.myapplication.Localization
 import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "Trip")
@@ -16,11 +15,27 @@ data class TripEntity (
 
     @ColumnInfo(name = "departure")
     @NotNull
-    var departure: Localization,
+    var departure: String,
+
+    @ColumnInfo(name = "departureLatitude")
+    @NotNull
+    var departureLatitude: String? = "",
+
+    @ColumnInfo(name = "departureLongitude")
+    @NotNull
+    var departureLongitude: String? = "",
 
     @ColumnInfo(name = "destination")
     @NotNull
-    var destination: Localization,
+    var destination: String,
+
+    @ColumnInfo(name = "destinationLatitude")
+    @NotNull
+    var destinationLatitude: String? = "",
+
+    @ColumnInfo(name = "destinationLongitude")
+    @NotNull
+    var destinationLongitude: String? = "",
 
     @ColumnInfo(name = "price")
     @NotNull

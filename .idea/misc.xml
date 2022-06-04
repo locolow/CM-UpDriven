@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/And_Stdio/Sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.20625" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/drawable/bg_round_button.xml" value="0.16" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/drawable/bg_white_box.xml" value="0.16" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/drawable/home.xml" value="0.1975" />
@@ -15,16 +16,18 @@
         <entry key="..\:/TrabalhoCM/app/src/main/res/drawable/ic_file.xml" value="0.345" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/drawable/ic_lock.xml" value="0.345" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/drawable/ic_person.xml" value="0.345" />
-        <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_add_trip.xml" value="0.33" />
+        <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_add_trip.xml" value="0.25" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_drawer.xml" value="0.18802083333333333" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_profile.xml" value="0.17395833333333333" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/TrabalhoCM/app/src/main/res/layout/activity_test.xml" value="0.36666666666666664" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/fragment_profile.xml" value="0.18958333333333333" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="..\:/TrabalhoCM/app/src/main/res/layout/item_search_results.xml" value="0.36666666666666664" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/menu/drawer_items.xml" value="0.18802083333333333" />
         <entry key="..\:/TrabalhoCM/app/src/main/res/menu/drawer_menu.xml" value="0.25" />

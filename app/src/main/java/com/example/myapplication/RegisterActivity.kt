@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    writeNewUser(username, email, name, userUid!!)
+                    writeNewUser(User(username, email, name), userUid!!)
                     database.userDao().insertOrReplace(
                         UserEntity(userUid,username,email,name)
                     )
