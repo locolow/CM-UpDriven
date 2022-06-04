@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MenuItem
@@ -38,12 +40,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var roomDatabase : AppDatabase
     private lateinit var userDao : UserDao
     private lateinit var profileImage : CircleImageView
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
+        userUid = Utils.getUserId(sharedPreferences)
 
         val drawerLayout : DrawerLayout = binding.drawerLayout
         val navView : NavigationView = binding.navView
@@ -71,11 +77,6 @@ class MainActivity : AppCompatActivity() {
 
         //get dao
         userDao = roomDatabase.userDao()
-        intent.getStringExtra(USER_ID).let {
-            if (it != null) {
-                userUid = it
-            }
-        }
 
         //specify the child (where it is stored on firebaseDB, then what to use as child name
         database.child("Users").child(userUid).get().addOnSuccessListener { data ->
@@ -134,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener { logout() }
 
         //just a test, TODO DELETE
-        println(roomDatabase.userDao().getAllUsers().get(0))
+        //println(roomDatabase.userDao().getAllUsers().get(0))
 
         //ADD TRIP
         binding.btnAddTrip.setOnClickListener{startActivity(Intent(this, AddTripActivity::class.java)) }

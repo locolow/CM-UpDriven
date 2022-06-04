@@ -1,17 +1,17 @@
 package com.example.myapplication.db
 
 import androidx.room.TypeConverter
-import com.example.myapplication.Localization
+import com.example.myapplication.Trip
 import com.google.gson.Gson
 
 class Converter {
     @TypeConverter
-    fun stringtoLocalization(value : String) : Localization {
-            return Gson().fromJson(value, Localization::class.java)
+    fun stringtoLocalization(value : String) : Trip {
+            return Gson().fromJson(value, Trip::class.java)
     }
 
     @TypeConverter
-    fun localizationToString(value : Localization) : String{
+    fun localizationToString(value : Trip) : String{
         return Gson().toJson(value)
     }
 }
