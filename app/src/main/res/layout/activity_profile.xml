@@ -31,5 +31,62 @@
             android:layout_height="wrap_content"
             android:text="Upload image"
             />
+        <Button
+            android:id="@+id/editNomeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar Nome"
+            android:onClick="showEditNome"
+            ></Button>
+        <Button
+            android:id="@+id/editUsernameBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar Username"
+            android:onClick="showEditUsername"
+            ></Button>
 
+    <LinearLayout
+        android:id="@+id/lleditName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <EditText
+            android:id="@+id/etNovoNome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Introduza o novo nome"
+            ></EditText>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Novo nome"
+            android:onClick="editNome"
+            ></Button>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lleditUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <EditText
+            android:id="@+id/etNovoUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Introduza o novo Username"
+            ></EditText>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Novo nome"
+            android:onClick="EditUsername"
+            ></Button>
+    </LinearLayout>
+</LinearLayout>
