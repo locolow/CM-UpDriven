@@ -13,4 +13,10 @@
     <color name="main_color">#5e605f</color>
     <color name="nav_color">#D3D0D0</color>
     <color name="underLine">#FD3E3E</color>
+    <color name="salmon">#FF9999</color>
+    <color name="redd">#FF0A0A</color>
+    <color name="eng_red">#B80000</color>
+    <color name="barn_red">#7A0000</color>
+    <color name="grayish">#C1C1C1</color>
+
 </resources>
