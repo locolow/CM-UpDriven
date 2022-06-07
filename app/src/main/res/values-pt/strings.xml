@@ -11,4 +11,6 @@
     <string name="not_a_member_register_here">Não tem conta ? Registe-se</string>
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
+    <string name="string_entry">Bem Vindo ao UpDrive</string>
+
 </resources>

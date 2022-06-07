@@ -10,4 +10,5 @@
     <string name="not_a_member_register_here">Not a member ? Register</string>
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
+    <string name="string_entry">Welcome to UpDrive</string>
 </resources>

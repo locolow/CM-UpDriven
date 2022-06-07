@@ -10,9 +10,8 @@
     tools:context=".RegisterActivity">
 
     <ImageView
-        android:src="@drawable/updriven"
+        android:src="@drawable/s"
         android:id="@+id/image"
-        android:background="@color/white"
         android:layout_width="0dp"
         android:layout_height="192dp"
         android:layout_marginStart="32dp"
@@ -24,8 +23,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clDeparture"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
@@ -53,8 +52,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
             android:hint="@string/enter_email"
-            android:textColorHint="@color/light_gray"
             android:textColor="@color/black"
+            android:textColorHint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imgEmail"
@@ -63,8 +62,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
@@ -102,8 +101,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clUsername"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
@@ -141,8 +140,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
@@ -174,6 +173,7 @@
             android:textColorHint="@color/light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/imgName"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -181,15 +181,20 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_width="360dp"
+        android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/bg_round_button"
         android:text="@string/register"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clName" />
+        app:layout_constraintTop_toBottomOf="@id/clName"
+        app:layout_constraintVertical_bias="0.376" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

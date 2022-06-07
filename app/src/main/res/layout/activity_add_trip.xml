@@ -25,6 +25,7 @@
 
         <ImageView
             android:id="@+id/imgDeparture"
+            android:tint="@color/magenta"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
@@ -64,6 +65,7 @@
 
         <ImageView
             android:id="@+id/imgDestination"
+            android:tint="@color/magenta"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
@@ -103,6 +105,7 @@
 
         <ImageView
             android:id="@+id/imgDate"
+            android:tint="@color/magenta"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
@@ -145,6 +148,7 @@
 
         <ImageView
             android:id="@+id/imgTime"
+            android:tint="@color/magenta"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
