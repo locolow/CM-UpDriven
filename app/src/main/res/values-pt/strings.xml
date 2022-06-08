@@ -12,5 +12,6 @@
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
     <string name="string_entry">Bem Vindo ao UpDrive</string>
+    <string name="modify">Modificar</string>
 
 </resources>
