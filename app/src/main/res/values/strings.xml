@@ -10,8 +10,15 @@
     <string name="not_a_member_register_here">Not a member ? Register</string>
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
-    <string name="choose_departure">Choose Departure</string>
-    <string name="choose_destination">Choose Destination</string>
-    <string name="pick_date">Pick Date</string>
-    <string name="choose_time">Choose Time</string>
+    <string name="departure">Departure</string>
+    <string name="driver">Driver:</string>
+    <string name="destination">Destination</string>
+    <string name="pick_date">Date</string>
+    <string name="choose_time">Time</string>
+    <string name="price">PRICE</string>
+    <string name="seats">SEATS</string>
+    <string name="trip_created_success">Trip created successfully</string>
+    <string name="error">An error occurred</string>
+    <string name="next">Next</string>
+    <string name="try_again">Try again</string>
 </resources>

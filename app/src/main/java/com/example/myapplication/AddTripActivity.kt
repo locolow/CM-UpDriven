@@ -8,13 +8,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import com.example.myapplication.Utils
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.example.myapplication.Utils.SEARCH_RESULT_CODE
+import com.example.myapplication.Utils.getUserId
 import com.example.myapplication.databinding.ActivityAddTripBinding
-import com.example.myapplication.db.AppDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,17 +25,17 @@ import java.util.*
 class AddTripActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddTripBinding
-    private lateinit var database: AppDatabase
     private lateinit var sharedPreferences: SharedPreferences
+
     @RequiresApi(Build.VERSION_CODES.N)
-    private var dateFormat = SimpleDateFormat("dd MMM YYYY")
+    private var dateFormat = SimpleDateFormat("dd/MM/yyyy")
     private var timeFormat = SimpleDateFormat("HH:mm")
+    private lateinit var databaseTripReference: DatabaseReference
     private val dateCalendar = Calendar.getInstance()
     private val timeCalendar = Calendar.getInstance()
     private val style = AlertDialog.THEME_HOLO_DARK
-    private var tripType = Trips.DEPARTURE
+    private var tripType = TripsType.DEPARTURE
     private var trip = Trip()
-
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -40,40 +43,35 @@ class AddTripActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTripBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        databaseTripReference = FirebaseDatabase.getInstance(Utils.DB_URL).getReference("Trip")
         sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
+        trip.userUid = getUserId(sharedPreferences)
+
         binding.btnDeparture.setOnClickListener {
-            tripType = Trips.DEPARTURE
+            tripType = TripsType.DEPARTURE
             startActivityForResult(Intent(this, SearchActivity::class.java), SEARCH_RESULT_CODE)
         }
         binding.btnDestination.setOnClickListener {
-            tripType = Trips.DESTINATION
+            tripType = TripsType.DESTINATION
             startActivityForResult(Intent(this, SearchActivity::class.java), SEARCH_RESULT_CODE)
         }
 
+        binding.etPrice.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.etPrice.text?.clear()
+        }
+        binding.etPrice.addTextChangedListener {
+            trip.price = it.toString()
+        }
+        binding.etSeats.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.etSeats.text?.clear()
+        }
+        binding.etSeats.addTextChangedListener {
+            trip.availableSeats = it.toString()
+        }
+
         binding.btnSubmit.setOnClickListener {
-            if(trip.departure.isNotEmpty() &&
-                trip.departureLatitude.isNotEmpty() &&
-                trip.departureLongitude.isNotEmpty() &&
-                trip.destination.isNotEmpty() &&
-                trip.destinationLatitude.isNotEmpty() &&
-                trip.destinationLongitude.isNotEmpty() &&
-                trip.time.isNotEmpty()
-            )
-            Utils.writeNewTrip(
-                userUid = Utils.getUserId(sharedPreferences),
-                trip = Trip(
-                    departure = trip.departure,
-                    departureLatitude = trip.departureLatitude,
-                    departureLongitude = trip.departureLongitude,
-                    destination = trip.destination,
-                    destinationLatitude = trip.destinationLatitude,
-                    destinationLongitude = trip.destinationLongitude,
-                    date = "01-01-1996",
-                    time = trip.time,
-                    price = "3",
-                    availableSeats = "4"
-                )
-            )
+            submitTrip()
         }
 
         binding.btnDate.setOnClickListener {
@@ -84,11 +82,6 @@ class AddTripActivity : AppCompatActivity() {
                     selectedDate.set(Calendar.YEAR, year)
                     selectedDate.set(Calendar.MONTH, month)
                     selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    Toast.makeText(
-                        this,
-                        "date : $dateFormat.format(selectedDate.time)",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     trip.date = dateFormat.format(selectedDate.time)
                     binding.btnDate.text = dateFormat.format(selectedDate.time)
                 },
@@ -106,12 +99,6 @@ class AddTripActivity : AppCompatActivity() {
                     selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
                     selectedTime.set(Calendar.MINUTE, minute)
                     val time = timeFormat.format(selectedTime.time)
-                    binding.testecalendar.text = time
-                    Toast.makeText(
-                        this,
-                        "time: $time",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     trip.time = time
                     binding.btnTime.text = time
                 },
@@ -122,21 +109,62 @@ class AddTripActivity : AppCompatActivity() {
         }
     }
 
+    private fun submitTrip() {
+        if (trip.departure.isNotEmpty() &&
+            trip.departureLatitude.isNotEmpty() &&
+            trip.departureLongitude.isNotEmpty() &&
+            trip.destination.isNotEmpty() &&
+            trip.destinationLatitude.isNotEmpty() &&
+            trip.destinationLongitude.isNotEmpty() &&
+            trip.time.isNotEmpty() && trip.price.isNotEmpty() &&
+            trip.availableSeats.isNotEmpty() && trip.userUid.isNotEmpty()
+        ) {
+            binding.progress.visibility = View.VISIBLE
+            databaseTripReference.get().addOnSuccessListener {
+                val id = it.childrenCount + 1
+                databaseTripReference.child("$id").setValue(trip)
+                binding.content.visibility = View.GONE
+                binding.progress.visibility = View.GONE
+                binding.imgSuccess.visibility = View.VISIBLE
+                binding.txtSuccess.visibility = View.VISIBLE
+                binding.btnTripResult.visibility = View.VISIBLE
+                binding.imgSuccess.setImageResource(R.drawable.ic_success)
+                binding.txtSuccess.text = getString(R.string.trip_created_success)
+                binding.btnTripResult.text = getString(R.string.next)
+                binding.btnTripResult.setOnClickListener { finish() }
+            }
+                .addOnFailureListener {
+                    binding.content.visibility = View.GONE
+                    binding.progress.visibility = View.GONE
+                    binding.imgSuccess.visibility = View.VISIBLE
+                    binding.txtSuccess.visibility = View.VISIBLE
+                    binding.btnTripResult.visibility = View.VISIBLE
+                    binding.imgSuccess.setImageResource(R.drawable.ic_error)
+                    binding.txtSuccess.text = getString(R.string.error)
+                    binding.btnTripResult.text = getString(R.string.try_again)
+                    binding.btnTripResult.setOnClickListener {
+                        submitTrip()
+                    }
+                }
+        } else {
+            Toast.makeText(this, "Fill all the fields to complete a trip", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-       // if (resultCode == SEARCH_RESULT_CODE && resultCode == RESULT_OK) {
+        // if (resultCode == SEARCH_RESULT_CODE && resultCode == RESULT_OK) {
         if (resultCode == SEARCH_RESULT_CODE) {
-            if(data != null) {
+            if (data != null) {
                 val address = data.getStringExtra("address")
                 val lat = data.getStringExtra("lat")
                 val long = data.getStringExtra("long")
-                if (tripType == Trips.DEPARTURE) {
+                if (tripType == TripsType.DEPARTURE) {
                     binding.btnDeparture.text = address
                     trip.departure = address.toString()
                     trip.departureLatitude = lat.toString()
                     trip.departureLongitude = long.toString()
-                }
-                else {
+                } else {
                     binding.btnDestination.text = address
                     trip.destination = address.toString()
                     trip.destinationLatitude = lat.toString()
@@ -146,39 +174,3 @@ class AddTripActivity : AppCompatActivity() {
         }
     }
 }
-
-
-/* private fun startSearchView() {
-        Places.initialize(applicationContext, Utils.API_KEY)
-        departures.add( "Viana")
-        departures.add( "Porto")
-
-        val adapter = ArrayAdapter<String>(this, R.layout.item_search_results, departures)
-        binding.listviewDeparture.adapter = adapter
-
-        adapter.sort { o1, o2 -> o1.compareTo(o2!!) }
-
-        binding.searchDeparture.setOnQueryTextListener(object :
-            SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                val fieldList : List<Place.Field> = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME)
-                val intent : Intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(this@AddTripActivity)
-                startActivityForResult(intent, 100)
-                departures.add( "Gondomar")
-                adapter.addAll()
-                adapter.notifyDataSetChanged()
-                return false
-            }
-        })
-
-        binding.listviewDeparture.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                binding.searchDeparture.setQuery(p0?.getItemAtPosition(p2).toString(), false)
-            }
-        }
-    }*/

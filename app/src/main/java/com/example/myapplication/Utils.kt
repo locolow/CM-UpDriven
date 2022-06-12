@@ -15,11 +15,6 @@ object Utils {
         database.child(userUid).setValue(user)
     }
 
-    fun writeNewTrip(userUid: String, trip : Trip){
-        val database = FirebaseDatabase.getInstance(DB_URL).getReference("Trip")
-        database.child(userUid).setValue(trip)
-    }
-
     fun getUserId(sharedPreferences: SharedPreferences) : String {
         return sharedPreferences.getString(USER_ID, "").toString()
     }
@@ -27,8 +22,12 @@ object Utils {
     fun saveLoginUser(sharedPreferences: SharedPreferences, userId: String) {
         sharedPreferences.edit().putString(USER_ID, userId).apply()
     }
+
+    fun logoutUser(sharedPreferences: SharedPreferences) {
+        sharedPreferences.edit().putString(USER_ID, "").apply()
+    }
 }
 
-enum class Trips {
+enum class TripsType {
     DEPARTURE, DESTINATION
 }

@@ -11,4 +11,10 @@
     <string name="not_a_member_register_here">Não tem conta ? Registe-se</string>
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
+    <string name="price">PREÇO</string>
+    <string name="seats">LUGARES DISPONÍVEIS</string>
+    <string name="trip_created_success">Viagem criada com sucesso</string>
+    <string name="error">Ocorreu um erro</string>
+    <string name="next">Seguinte</string>
+    <string name="try_again">Tentar de novo</string>
 </resources>

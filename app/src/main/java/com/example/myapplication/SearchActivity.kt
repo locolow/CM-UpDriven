@@ -42,7 +42,18 @@ class SearchActivity : AppCompatActivity() {
             finish()*/
         if(requestCode == SEARCH_RESULT_CODE) {
             val intent = Intent()
-            intent.putExtra("address", "Rua do Outeiro")
+            val addressList = listOf(
+                "Rua do Outeiro nº 25",
+                "Rua de S. Pedro nº 21",
+                "Largo de Montezelo",
+                "Centro Histórico Viana do Castelo",
+                "IPVC - ESTG",
+                "Continente Meadela",
+                "Praia Norte Viana do Castelo",
+                "IPVC - ESE",
+                "Rua dos Carvalhos nº 14"
+            )
+            intent.putExtra("address", addressList.random())
             intent.putExtra("lat", "-1")
             intent.putExtra("long", "24")
             setResult(SEARCH_RESULT_CODE, intent)
