@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -65,6 +66,11 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.nav_home -> startActivity(Intent(this, MainActivity::class.java))
                 R.id.nav_gallery -> startActivity(Intent(this, ProfileActivity::class.java))
+                R.id.nav_logout -> {
+                    Utils.logoutUser(sharedPreferences)
+                    finish()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
             }
             true
         }
@@ -140,11 +146,13 @@ class MainActivity : AppCompatActivity() {
 
         //ADD TRIP
         binding.btnAddTrip.setOnClickListener{startActivity(Intent(this, AddTripActivity::class.java)) }
+        binding.btnViewTrips.setOnClickListener{startActivity(Intent(this, ViewTripsActivity::class.java)) }
 
     }
 
     private fun logout() {
         FirebaseAuth.getInstance().signOut()
+        Utils.logoutUser(sharedPreferences)
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
