@@ -11,4 +11,5 @@ data class Trip(
     var time: String = "",
     var price: String = "",
     var availableSeats: String = "",
+    var userUid: String = ""
 )
