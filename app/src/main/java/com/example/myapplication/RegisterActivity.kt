@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var password: String
     private lateinit var username: String
     private lateinit var name: String
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     private lateinit var database: AppDatabase
 
@@ -25,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
 
         database = AppDatabase(this)
 
@@ -55,6 +60,7 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
 
                     writeNewUser(User(username, email, name), userUid!!)
+                    Utils.saveLoginUser(sharedPreferences, userUid)
                     database.userDao().insertOrReplace(
                         UserEntity(userUid,username,email,name)
                     )
