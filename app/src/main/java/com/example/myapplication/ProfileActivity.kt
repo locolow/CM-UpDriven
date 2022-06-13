@@ -6,9 +6,9 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import com.example.myapplication.db.AppDatabase
 import com.example.myapplication.db.entities.UserEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -85,5 +85,37 @@ class ProfileActivity : AppCompatActivity() {
         }else{
             Toast.makeText(this, "Please Upload an Image", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun showEditNome(view: View) {
+        val novoNome = findViewById<LinearLayout>(R.id.lleditName)
+        novoNome.visibility = View.VISIBLE
+    }
+
+    fun editNome(view: View){
+        var etNovoNome = findViewById<EditText>(R.id.etNovoNome)
+        val name = etNovoNome.text.toString()
+
+        database.child("Users").child(currentFirebaseUser).child("name").setValue(name)
+        Toast.makeText(this, "Nome alterado com sucesso!", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, MainActivity::class.java).apply {}
+        startActivity(intent)
+
+    }
+
+    fun showEditUsername(view: View) {
+        val novoNome = findViewById<LinearLayout>(R.id.lleditUsername)
+        novoNome.visibility = View.VISIBLE
+    }
+
+    fun EditUsername(view: View) {
+        var etNovoNome = findViewById<EditText>(R.id.etNovoUsername)
+        val name = etNovoNome.text.toString()
+
+        database.child("Users").child(currentFirebaseUser).child("username").setValue(name)
+        Toast.makeText(this, "Username alterado com sucesso!", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, MainActivity::class.java).apply {}
+        startActivity(intent)
+
     }
 }
