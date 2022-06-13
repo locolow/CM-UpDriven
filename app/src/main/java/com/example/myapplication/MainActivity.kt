@@ -83,6 +83,11 @@ class MainActivity : AppCompatActivity() {
 
         //get dao
         userDao = roomDatabase.userDao()
+        intent.getStringExtra(USER_ID).let {
+            if (it != null) {
+                userUid = it
+            }
+        }
 
         //specify the child (where it is stored on firebaseDB, then what to use as child name
         database.child("Users").child(userUid).get().addOnSuccessListener { data ->
@@ -104,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvUsername).text = userLocal.username
             findViewById<TextView>(R.id.tvEmail).text = userLocal.email
         }
+
         //GET IMAGE TO NAV HEADER
         //get Reference to where image is
         val storageRef = FirebaseStorage.getInstance().reference.child("myImages/$userUid")
@@ -119,20 +125,20 @@ class MainActivity : AppCompatActivity() {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-
         //Get the right id, not using this gets null pointer
         val header = navView.getHeaderView(0) as LinearLayout
         profileImage = header.findViewById(R.id.profileImage)
 
         //actual code for gettin image
         storageRef.getFile(localfile).addOnSuccessListener {
+
             if(progressDialog.isShowing)
                 progressDialog.dismiss()
             val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
             profileImage.setImageBitmap(bitmap)
 
         }.addOnFailureListener{
-            Toast.makeText(this,"Failed ! Cant get image",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Failed ! Cant get image",Toast.LENGTH_SHORT).show()
             if(progressDialog.isShowing)
                 progressDialog.dismiss()
                 profileImage
@@ -142,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogout.setOnClickListener { logout() }
 
         //just a test, TODO DELETE
-        //println(roomDatabase.userDao().getAllUsers().get(0))
+        println(roomDatabase.userDao().getAllUsers().get(0))
 
         //ADD TRIP
         binding.btnAddTrip.setOnClickListener{startActivity(Intent(this, AddTripActivity::class.java)) }
@@ -182,4 +188,3 @@ class MainActivity : AppCompatActivity() {
 }
 
 //Initial Commit
-//Fix Image + Register
