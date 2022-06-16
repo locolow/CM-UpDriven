@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.trips
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.example.myapplication.*
 import com.example.myapplication.Utils.SEARCH_RESULT_CODE
 import com.example.myapplication.Utils.getUserId
 import com.example.myapplication.databinding.ActivityAddTripBinding
@@ -28,8 +29,8 @@ class AddTripActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private var dateFormat = SimpleDateFormat("dd/MM/yyyy")
-    private var timeFormat = SimpleDateFormat("HH:mm")
+    private var dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    private var timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     private lateinit var databaseTripReference: DatabaseReference
     private val dateCalendar = Calendar.getInstance()
     private val timeCalendar = Calendar.getInstance()
@@ -63,6 +64,7 @@ class AddTripActivity : AppCompatActivity() {
         binding.etPrice.addTextChangedListener {
             trip.price = it.toString()
         }
+
         binding.etSeats.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) binding.etSeats.text?.clear()
         }
@@ -77,7 +79,7 @@ class AddTripActivity : AppCompatActivity() {
         binding.btnDate.setOnClickListener {
             val datePicker = DatePickerDialog(
                 this,
-                { view, year, month, dayOfMonth ->
+                { _, year, month, dayOfMonth ->
                     val selectedDate = Calendar.getInstance()
                     selectedDate.set(Calendar.YEAR, year)
                     selectedDate.set(Calendar.MONTH, month)
@@ -89,12 +91,13 @@ class AddTripActivity : AppCompatActivity() {
                 dateCalendar.get(Calendar.MONTH),
                 dateCalendar.get(Calendar.DAY_OF_MONTH)
             )
+            datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
             datePicker.show()
         }
 
         binding.btnTime.setOnClickListener {
             val timePicker = TimePickerDialog(
-                this, style, { view, hourOfDay, minute ->
+                this, style, { _, hourOfDay, minute ->
                     val selectedTime = Calendar.getInstance()
                     selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
                     selectedTime.set(Calendar.MINUTE, minute)
@@ -120,40 +123,27 @@ class AddTripActivity : AppCompatActivity() {
             trip.availableSeats.isNotEmpty() && trip.userUid.isNotEmpty()
         ) {
             binding.progress.visibility = View.VISIBLE
-            databaseTripReference.get().addOnSuccessListener {
-                val id = it.childrenCount + 1
-                databaseTripReference.child("$id").setValue(trip)
-                binding.content.visibility = View.GONE
-                binding.progress.visibility = View.GONE
-                binding.imgSuccess.visibility = View.VISIBLE
-                binding.txtSuccess.visibility = View.VISIBLE
-                binding.btnTripResult.visibility = View.VISIBLE
-                binding.imgSuccess.setImageResource(R.drawable.ic_success)
-                binding.txtSuccess.text = getString(R.string.trip_created_success)
-                binding.btnTripResult.text = getString(R.string.next)
-                binding.btnTripResult.setOnClickListener { finish() }
-            }
+            databaseTripReference.get()
+                .addOnSuccessListener {
+                    val id = it.childrenCount + 1
+                    trip.id = id.toString()
+                    databaseTripReference.child("$id").setValue(trip)
+                    setViewAfterSubmitTrip(success = true)
+                }
                 .addOnFailureListener {
-                    binding.content.visibility = View.GONE
-                    binding.progress.visibility = View.GONE
-                    binding.imgSuccess.visibility = View.VISIBLE
-                    binding.txtSuccess.visibility = View.VISIBLE
-                    binding.btnTripResult.visibility = View.VISIBLE
-                    binding.imgSuccess.setImageResource(R.drawable.ic_error)
-                    binding.txtSuccess.text = getString(R.string.error)
-                    binding.btnTripResult.text = getString(R.string.try_again)
-                    binding.btnTripResult.setOnClickListener {
-                        submitTrip()
-                    }
+                    setViewAfterSubmitTrip(success = false)
                 }
         } else {
-            Toast.makeText(this, "Fill all the fields to complete a trip", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // if (resultCode == SEARCH_RESULT_CODE && resultCode == RESULT_OK) {
+        /* If API worked, we needed to verify both the result code and also if the resultCode was RESULT_OK,
+         since the API isn't working, we don't check for RESULT_OK because we mocked the results
+         if (resultCode == SEARCH_RESULT_CODE && resultCode == RESULT_OK) {
+         */
         if (resultCode == SEARCH_RESULT_CODE) {
             if (data != null) {
                 val address = data.getStringExtra("address")
@@ -172,5 +162,32 @@ class AddTripActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setViewAfterSubmitTrip(success: Boolean) {
+        if (success) {
+            binding.content.visibility = View.GONE
+            binding.progress.visibility = View.GONE
+            binding.imgSuccess.visibility = View.VISIBLE
+            binding.imgSuccess.setImageResource(R.drawable.ic_success)
+            binding.txtSuccess.visibility = View.VISIBLE
+            binding.txtSuccess.text = getString(R.string.trip_created_success)
+            binding.btnTripResult.visibility = View.VISIBLE
+            binding.btnTripResult.text = getString(R.string.next)
+            binding.btnTripResult.setOnClickListener { finish() }
+        } else {
+            binding.content.visibility = View.GONE
+            binding.progress.visibility = View.GONE
+            binding.imgSuccess.visibility = View.VISIBLE
+            binding.imgSuccess.setImageResource(R.drawable.ic_error)
+            binding.txtSuccess.visibility = View.VISIBLE
+            binding.txtSuccess.text = getString(R.string.error)
+            binding.btnTripResult.visibility = View.VISIBLE
+            binding.btnTripResult.text = getString(R.string.try_again)
+            binding.btnTripResult.setOnClickListener {
+                submitTrip()
+            }
+        }
+
     }
 }

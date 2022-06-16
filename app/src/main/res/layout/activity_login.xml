@@ -7,7 +7,7 @@
     android:background="@color/main_color"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".RegisterActivity">
+    tools:context=".register.RegisterActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
         >
 
     <ImageView
-        android:src="@drawable/human"
+        android:src="@drawable/s"
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="192dp"
@@ -162,7 +162,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
-        android:text="HERE"
+        android:text="@string/here"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/tvRegister"
         app:layout_constraintTop_toBottomOf="@id/btnLogin"

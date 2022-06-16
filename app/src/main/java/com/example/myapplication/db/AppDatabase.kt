@@ -2,6 +2,7 @@ package com.example.myapplication.db
 
 import android.content.Context
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myapplication.db.dao.TripDao
 import com.example.myapplication.db.dao.UserDao
 import com.example.myapplication.db.entities.TripEntity
@@ -11,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 
-@Database(version = 2, exportSchema = false, entities = arrayOf(
+@Database(version = 3, exportSchema = false, entities = arrayOf(
     UserEntity::class,
     TripEntity::class
 ))
@@ -26,16 +27,19 @@ abstract class AppDatabase : RoomDatabase(){
         private val LOCK = Any()
 
         operator fun invoke(context: Context)= instance ?: synchronized(LOCK){
-            instance ?: buildDatabase(context).also { instance = it}
+            instance ?: buildDatabase(context).also {
+                instance = it
+            }
+
         }
 
 
         private fun buildDatabase(context: Context): AppDatabase {
-
             val db = Room.databaseBuilder(context, AppDatabase::class.java, "db_updriven.db")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build()
+                OnConflictStrategy.REPLACE
 
             return db
         }

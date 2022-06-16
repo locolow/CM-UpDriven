@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">UpDriven</string>
     <string name="login">Login</string>
     <string name="enter_email">Email</string>
     <string name="enter_your_password">Password</string>
@@ -10,8 +10,8 @@
     <string name="not_a_member_register_here">Not a member ? Register</string>
     <string name="nav_open">Nav open</string>
     <string name="nav_close">Nav close</string>
-    <string name="string_entry">Welcome to UpDrive</string>
-    <string name="modify">Modify</string>
+    <string name="string_entry">Welcome to UpDriven</string>
+    <string name="confirm">Confirm</string>
     <string name="departure">Departure</string>
     <string name="driver">Driver:</string>
     <string name="destination">Destination</string>
@@ -23,4 +23,9 @@
     <string name="error">An error occurred</string>
     <string name="next">Next</string>
     <string name="try_again">Try again</string>
+    <string name="here">HERE</string>
+    <string name="enter_credentials">Please enter your crendentials</string>
+    <string name="from">From</string>
+    <string name="error_search_view">There was an error opening the search view</string>
+    <string name="fill_fields">Fill all the fields to complete a trip</string>
 </resources>

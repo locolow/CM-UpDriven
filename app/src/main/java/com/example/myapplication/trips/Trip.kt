@@ -1,6 +1,9 @@
-package com.example.myapplication
+package com.example.myapplication.trips
+
+import java.io.Serializable
 
 data class Trip(
+    var id: String = "",
     var departure: String = "",
     var departureLatitude: String = "",
     var departureLongitude: String = "",
@@ -12,4 +15,4 @@ data class Trip(
     var price: String = "",
     var availableSeats: String = "",
     var userUid: String = ""
-)
+) : Serializable

@@ -6,21 +6,21 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.myapplication.trips.AddTripActivity
+import com.example.myapplication.trips.ViewTripsActivity
 import com.example.myapplication.Utils.DB_URL
-import com.example.myapplication.Utils.USER_ID
-import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.databinding.ActivityDashboardBinding
 import com.example.myapplication.db.AppDatabase
 import com.example.myapplication.db.dao.UserDao
 import com.example.myapplication.db.entities.UserEntity
+import com.example.myapplication.login.LoginActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -30,10 +30,10 @@ import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.File
 
-class MainActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity() {
 
     private lateinit var toggle : ActionBarDrawerToggle
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding : ActivityDashboardBinding
     private lateinit var database: DatabaseReference
     private lateinit var userRemote : User
     private lateinit var userLocal : UserEntity
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
@@ -65,13 +65,9 @@ class MainActivity : AppCompatActivity() {
         //decide what to do when clicked
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.nav_home -> startActivity(Intent(this, MainActivity::class.java))
-                R.id.nav_gallery -> startActivity(Intent(this, ProfileActivity::class.java))
-                R.id.nav_logout -> {
-                    Utils.logoutUser(sharedPreferences)
-                    finish()
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
+                R.id.nav_home -> startActivity(Intent(this, DashboardActivity::class.java))
+                R.id.nav_profile -> startActivity(Intent(this, ProfileActivity::class.java))
+                R.id.nav_logout -> logout()
             }
             true
         }
@@ -84,11 +80,6 @@ class MainActivity : AppCompatActivity() {
 
         //get dao
         userDao = roomDatabase.userDao()
-        intent.getStringExtra(USER_ID).let {
-            if (it != null) {
-                userUid = it
-            }
-        }
 
         //specify the child (where it is stored on firebaseDB, then what to use as child name
         database.child("Users").child(userUid).get().addOnSuccessListener { data ->
@@ -101,58 +92,52 @@ class MainActivity : AppCompatActivity() {
         }.addOnFailureListener { exception ->
             Toast.makeText(this, exception.message.toString(), Toast.LENGTH_SHORT).show()
         }.addOnCompleteListener {
-            //SHOW THE VARIABLES
             userLocal = userDao.getUserById(userUid)
-            binding.lblUsername.text = userLocal.username
-            binding.lblEmail.text = userLocal.email
+
+            //SHOW THE VARIABLES
+            binding.lblUsername.text = userLocal.name
 
             //Variables into nav_header
-            findViewById<TextView>(R.id.tvUsername).text = userLocal.username
+            findViewById<TextView>(R.id.tvUsername).text = userLocal.name
             findViewById<TextView>(R.id.tvEmail).text = userLocal.email
         }
 
         //GET IMAGE TO NAV HEADER
         //get Reference to where image is
         val storageRef = FirebaseStorage.getInstance().reference.child("myImages/$userUid")
-        val defaultRef = FirebaseStorage.getInstance().reference.child("myImages/ccam.PNG")
 
         //Store in tempfile
-        val localfile = File.createTempFile("tempImage","jpeg")
-        val localDefault = File.createTempFile("defaultImage","png")
+        val localFile = File.createTempFile("tempImage","jpeg")
         //wait for image to load
 
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Fetchin image..")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
+        val progressDialog = ProgressDialog(this).apply {
+            setMessage("Fetching image...")
+            setCancelable(false)
+            show()
+        }
 
         //Get the right id, not using this gets null pointer
         val header = navView.getHeaderView(0) as LinearLayout
         profileImage = header.findViewById(R.id.profileImage)
 
         //actual code for gettin image
-        storageRef.getFile(localfile).addOnSuccessListener {
+        storageRef.getFile(localFile).addOnSuccessListener {
 
-            if(progressDialog.isShowing)
-                progressDialog.dismiss()
-            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
             profileImage.setImageBitmap(bitmap)
 
         }.addOnFailureListener{
                 Toast.makeText(this,"Failed ! Cant get image",Toast.LENGTH_SHORT).show()
-            if(progressDialog.isShowing)
-                progressDialog.dismiss()
-                profileImage
                 }
+            .addOnCompleteListener{
+                if(progressDialog.isShowing)
+                    progressDialog.dismiss()
+            }
 
-        //LOGOUT
-        binding.btnLogout.setOnClickListener { logout() }
-
-        //just a test, TODO DELETE
-        println(roomDatabase.userDao().getAllUsers().get(0))
 
         //ADD TRIP
         binding.btnAddTrip.setOnClickListener{startActivity(Intent(this, AddTripActivity::class.java)) }
+        //VIEW TRIPS
         binding.btnViewTrips.setOnClickListener{startActivity(Intent(this, ViewTripsActivity::class.java)) }
 
     }
@@ -171,14 +156,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun onNavigationItemSelected(item : MenuItem){
-        val id = item.itemId
-
-        if(id == R.id.nav_home){
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
             return true
@@ -188,6 +165,6 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-//Initial Commit
-//fUNCbOLEIA
-//commit Image+register Fix
+//startactivity começa uma atividade nova mas nao fecha a anterior, quando carrega no back volta para a anterior
+//finish() fecha a atividade a correr
+//finisAffinity fecha tudo

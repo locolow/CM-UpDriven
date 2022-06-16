@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.myapplication.DashboardActivity
+import com.example.myapplication.register.RegisterActivity
+import com.example.myapplication.Utils
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -24,7 +27,8 @@ class LoginActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
 
-        if(Utils.getUserId(sharedPreferences).isNotEmpty()) startActivity(Intent(this, MainActivity::class.java))
+        if(Utils.getUserId(sharedPreferences)
+                .isNotEmpty()) startActivity(Intent(this, DashboardActivity::class.java))
 
         binding.here.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -50,9 +54,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val userUid: String? = task.result.user?.uid
                     userUid?.let { Utils.saveLoginUser(sharedPreferences, it) }
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra(Utils.USER_ID, userUid)
-                    startActivity(intent)
+                    startActivity(Intent(this, DashboardActivity::class.java))
                 } else {
                     Toast.makeText(
                         this,

@@ -18,4 +18,7 @@ interface UserDao {
 
     @Query("SELECT * FROM User WHERE userId IN(:uid)")
     fun getUserById(uid : String) : UserEntity
+
+   // @Query("DELETE FROM User")
+    //suspend fun deleteAllUsers()
 }

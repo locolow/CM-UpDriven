@@ -120,7 +120,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="24dp"
@@ -133,27 +133,32 @@
         tools:ignore="MissingConstraints">
 
         <Button
-            android:id="@+id/btnLogin2"
-            android:layout_width="180dp"
-            android:layout_height="60dp"
+            android:id="@+id/btnLogin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_round_button2"
             android:text="@string/login"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <Button
-            android:id="@+id/btnRegister2"
-            android:layout_width="180dp"
-            android:layout_height="60dp"
+            android:id="@+id/btnRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/bg_round_button3"
             android:text="@string/register"
             android:textColor="@color/light_gray"
             android:textStyle="bold"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            app:layout_constraintStart_toEndOf="@id/btnLogin"
+
+            />
     </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 

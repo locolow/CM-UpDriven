@@ -1,7 +1,7 @@
 package com.example.myapplication.db
 
 import androidx.room.TypeConverter
-import com.example.myapplication.Trip
+import com.example.myapplication.trips.Trip
 import com.google.gson.Gson
 
 class Converter {
