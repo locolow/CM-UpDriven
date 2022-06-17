@@ -2,31 +2,29 @@ package com.example.myapplication.db
 
 import android.content.Context
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.myapplication.db.dao.TripDao
 import com.example.myapplication.db.dao.UserDao
 import com.example.myapplication.db.entities.TripEntity
 import com.example.myapplication.db.entities.UserEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 
 
-@Database(version = 3, exportSchema = false, entities = arrayOf(
-    UserEntity::class,
-    TripEntity::class
-))
-@TypeConverters(Converter::class)
+@Database(
+    version = 3, exportSchema = false, entities = arrayOf(
+        UserEntity::class,
+        TripEntity::class
+    )
+)
 
-abstract class AppDatabase : RoomDatabase(){
-    abstract fun userDao() : UserDao
-    abstract fun tripDao() : TripDao
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+    abstract fun tripDao(): TripDao
 
     companion object {
-        @Volatile private var instance: AppDatabase? = null
+        @Volatile
+        private var instance: AppDatabase? = null
         private val LOCK = Any()
 
-        operator fun invoke(context: Context)= instance ?: synchronized(LOCK){
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
             instance ?: buildDatabase(context).also {
                 instance = it
             }
@@ -39,7 +37,7 @@ abstract class AppDatabase : RoomDatabase(){
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build()
-                OnConflictStrategy.REPLACE
+            OnConflictStrategy.REPLACE
 
             return db
         }

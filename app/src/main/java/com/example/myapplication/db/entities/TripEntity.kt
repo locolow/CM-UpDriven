@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "Trip")
-data class TripEntity (
+data class TripEntity(
 
     @PrimaryKey(autoGenerate = true)
     @NotNull

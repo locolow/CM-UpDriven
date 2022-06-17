@@ -25,9 +25,17 @@
     <string name="pick_date">Data</string>
     <string name="choose_time">Hora</string>
     <string name="here">AQUI</string>
-    <string name="enter_credentials">Please enter your crendentials</string>
-    <string name="from">From</string>
-    <string name="error_search_view">There was an error opening the search view</string>
-    <string name="fill_fields">Fill all the fields to complete a trip</string>
+    <string name="enter_credentials">Introduza os seus dados</string>
+    <string name="from">De:</string>
+    <string name="error_search_view">Ocorreu um erro ao abrir a procura</string>
+    <string name="fill_fields">Complete todos os campos para adicionar a viagem</string>
+    <string name="to">Para:</string>
+    <string name="day">Dia:</string>
+    <string name="time">Hora:</string>
+    <string name="price_show">Preço:</string>
+    <string name="avaiable_seats">Lugares Disponíveis:</string>
+    <string name="reservation_confirmed">Viagem reservada com sucesso !</string>
+    <string name="upload_image">Por favor, adicione uma imagem</string>
+    <string name="select_picture">Escolha a fotografia</string>
 
 </resources>

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "User")
-data class UserEntity (
+data class UserEntity(
 
     @PrimaryKey
     @NotNull
@@ -24,4 +24,4 @@ data class UserEntity (
     @ColumnInfo(name = "name")
     @NotNull
     var name: String,
-    )
+)

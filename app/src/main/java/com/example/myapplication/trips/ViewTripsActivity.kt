@@ -15,13 +15,13 @@ import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ViewTripsActivity :  AppCompatActivity() {
+class ViewTripsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityViewTripsBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var databaseTripReference: DatabaseReference
-    private lateinit var database : AppDatabase
-    private lateinit var tripsList : ArrayList<Trip>
+    private lateinit var database: AppDatabase
+    private lateinit var tripsList: ArrayList<Trip>
     val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,13 +43,14 @@ class ViewTripsActivity :  AppCompatActivity() {
                         val dataSnapshot: Trip = it.getValue(Trip::class.java) as Trip
                         val date = sdf.parse(dataSnapshot.date)
                         val isOutdated = Date().after(date)
-                        if(!isOutdated) tripsList.add(dataSnapshot)
+                        if (!isOutdated) tripsList.add(dataSnapshot)
 
                     }
                     binding.tripsListRecyclerView.adapter = TripListAdapter(tripsList)
 
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@ViewTripsActivity, error.message, Toast.LENGTH_SHORT).show()
             }

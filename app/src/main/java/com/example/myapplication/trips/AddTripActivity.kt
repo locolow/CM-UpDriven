@@ -13,7 +13,9 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.example.myapplication.*
+import com.example.myapplication.R
+import com.example.myapplication.TripsType
+import com.example.myapplication.Utils
 import com.example.myapplication.Utils.SEARCH_RESULT_CODE
 import com.example.myapplication.Utils.getUserId
 import com.example.myapplication.databinding.ActivityAddTripBinding

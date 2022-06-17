@@ -13,14 +13,14 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.myapplication.trips.AddTripActivity
-import com.example.myapplication.trips.ViewTripsActivity
 import com.example.myapplication.Utils.DB_URL
 import com.example.myapplication.databinding.ActivityDashboardBinding
 import com.example.myapplication.db.AppDatabase
 import com.example.myapplication.db.dao.UserDao
 import com.example.myapplication.db.entities.UserEntity
 import com.example.myapplication.login.LoginActivity
+import com.example.myapplication.trips.AddTripActivity
+import com.example.myapplication.trips.ViewTripsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -32,17 +32,16 @@ import java.io.File
 
 class DashboardActivity : AppCompatActivity() {
 
-    private lateinit var toggle : ActionBarDrawerToggle
-    private lateinit var binding : ActivityDashboardBinding
+    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var binding: ActivityDashboardBinding
     private lateinit var database: DatabaseReference
-    private lateinit var userRemote : User
-    private lateinit var userLocal : UserEntity
-    private lateinit var userUid : String
-    private lateinit var roomDatabase : AppDatabase
-    private lateinit var userDao : UserDao
-    private lateinit var profileImage : CircleImageView
+    private lateinit var userRemote: User
+    private lateinit var userLocal: UserEntity
+    private lateinit var userUid: String
+    private lateinit var roomDatabase: AppDatabase
+    private lateinit var userDao: UserDao
+    private lateinit var profileImage: CircleImageView
     private lateinit var sharedPreferences: SharedPreferences
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,18 +52,18 @@ class DashboardActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
         userUid = Utils.getUserId(sharedPreferences)
 
-        val drawerLayout : DrawerLayout = binding.drawerLayout
-        val navView : NavigationView = binding.navView
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
 
         //ALL NAV things
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
+        toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //decide what to do when clicked
         navView.setNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.nav_home -> startActivity(Intent(this, DashboardActivity::class.java))
                 R.id.nav_profile -> startActivity(Intent(this, ProfileActivity::class.java))
                 R.id.nav_logout -> logout()
@@ -87,7 +86,11 @@ class DashboardActivity : AppCompatActivity() {
             //map the entity and put them into room, so that there is no need to get them from firebase
             userDao.insertOrReplace(
                 UserEntity(
-                id = userUid, username = userRemote.username, name = userRemote.name, email = userRemote.email)
+                    id = userUid,
+                    username = userRemote.username,
+                    name = userRemote.name,
+                    email = userRemote.email
+                )
             )
         }.addOnFailureListener { exception ->
             Toast.makeText(this, exception.message.toString(), Toast.LENGTH_SHORT).show()
@@ -107,7 +110,7 @@ class DashboardActivity : AppCompatActivity() {
         val storageRef = FirebaseStorage.getInstance().reference.child("myImages/$userUid")
 
         //Store in tempfile
-        val localFile = File.createTempFile("tempImage","jpeg")
+        val localFile = File.createTempFile("tempImage", "jpeg")
         //wait for image to load
 
         val progressDialog = ProgressDialog(this).apply {
@@ -126,19 +129,33 @@ class DashboardActivity : AppCompatActivity() {
             val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
             profileImage.setImageBitmap(bitmap)
 
-        }.addOnFailureListener{
-                Toast.makeText(this,"Failed ! Cant get image",Toast.LENGTH_SHORT).show()
-                }
-            .addOnCompleteListener{
-                if(progressDialog.isShowing)
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed ! Cant get image", Toast.LENGTH_SHORT).show()
+        }
+            .addOnCompleteListener {
+                if (progressDialog.isShowing)
                     progressDialog.dismiss()
             }
 
 
         //ADD TRIP
-        binding.btnAddTrip.setOnClickListener{startActivity(Intent(this, AddTripActivity::class.java)) }
+        binding.btnAddTrip.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    AddTripActivity::class.java
+                )
+            )
+        }
         //VIEW TRIPS
-        binding.btnViewTrips.setOnClickListener{startActivity(Intent(this, ViewTripsActivity::class.java)) }
+        binding.btnViewTrips.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ViewTripsActivity::class.java
+                )
+            )
+        }
 
     }
 
@@ -157,7 +174,7 @@ class DashboardActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)){
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)

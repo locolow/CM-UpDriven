@@ -1,15 +1,16 @@
 package com.example.myapplication.login
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import android.content.Context
-import android.content.SharedPreferences
 import com.example.myapplication.DashboardActivity
-import com.example.myapplication.register.RegisterActivity
+import com.example.myapplication.R
 import com.example.myapplication.Utils
 import com.example.myapplication.databinding.ActivityLoginBinding
+import com.example.myapplication.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -27,8 +28,9 @@ class LoginActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("FILE_1", Context.MODE_PRIVATE)
 
-        if(Utils.getUserId(sharedPreferences)
-                .isNotEmpty()) startActivity(Intent(this, DashboardActivity::class.java))
+        if (Utils.getUserId(sharedPreferences)
+                .isNotEmpty()
+        ) startActivity(Intent(this, DashboardActivity::class.java))
 
         binding.here.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -40,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Please enter your crendentials",
+                    getString(R.string.enter_credentials),
                     Toast.LENGTH_SHORT
                 ).show()
             } else authenticateLogin()

@@ -5,15 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityProfileBinding
 import com.example.myapplication.db.AppDatabase
 import com.example.myapplication.db.dao.UserDao
-import com.example.myapplication.db.entities.UserEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -28,11 +27,10 @@ class ProfileActivity : AppCompatActivity() {
     private var firebaseStore: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
     private lateinit var currentFirebaseUser: String
-    private lateinit var userDao : UserDao
-    private lateinit var userLocal : UserEntity
-    private lateinit var userUid : String
-    private lateinit var binding : ActivityProfileBinding
-    private lateinit var roomDatabase : AppDatabase
+    private lateinit var userDao: UserDao
+    private lateinit var userUid: String
+    private lateinit var binding: ActivityProfileBinding
+    private lateinit var roomDatabase: AppDatabase
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var database: DatabaseReference
 
@@ -50,12 +48,14 @@ class ProfileActivity : AppCompatActivity() {
             binding.lleditName.visibility = View.VISIBLE
         }
         binding.editUsernameBtn.setOnClickListener {
-           binding.llEditUsername.visibility = View.VISIBLE
+            binding.llEditUsername.visibility = View.VISIBLE
         }
         binding.btnEditName.setOnClickListener {
-            editNameOrUsername("name", binding.etNovoNome.text.toString() ) }
+            editNameOrUsername("name", binding.etNovoNome.text.toString())
+        }
         binding.btnEditUsername.setOnClickListener {
-            editNameOrUsername("username", binding.etNovoUsername.text.toString() ) }
+            editNameOrUsername("username", binding.etNovoUsername.text.toString())
+        }
 
         database = Firebase.database(Utils.DB_URL).reference
 
@@ -75,13 +75,16 @@ class ProfileActivity : AppCompatActivity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), Utils.PICK_IMAGE_REQUEST)
+        startActivityForResult(
+            Intent.createChooser(intent, getString(R.string.select_picture)),
+            Utils.PICK_IMAGE_REQUEST
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Utils.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            if(data == null || data.data == null){
+            if (data == null || data.data == null) {
                 return
             }
             filePath = data.data
@@ -93,20 +96,24 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
     }
-    private fun uploadImage(){
-        if(filePath != null){
-            storageReference?.child("myImages/" + currentFirebaseUser)?.putFile(filePath!!)
-        }else{
-            Toast.makeText(this, "Please Upload an Image", Toast.LENGTH_SHORT).show()
+
+    private fun uploadImage() {
+        if (filePath != null) {
+            storageReference?.child("myImages/$currentFirebaseUser")?.putFile(filePath!!)
+        } else {
+            Toast.makeText(this, getString(R.string.upload_image), Toast.LENGTH_SHORT).show()
         }
+        startActivity(Intent(this, DashboardActivity::class.java))
+        finish()
     }
 
-    private fun editNameOrUsername(child : String, value : String) {
+    private fun editNameOrUsername(child: String, value: String) {
         database.child("Users").child(currentFirebaseUser).child(child).setValue(value)
 
         Toast.makeText(this, "$child alterado com sucesso!", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, DashboardActivity::class.java).apply {}
         startActivity(intent)
+
     }
 }
 

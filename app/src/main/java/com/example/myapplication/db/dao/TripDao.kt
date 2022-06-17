@@ -10,10 +10,8 @@ import com.example.myapplication.db.entities.TripEntity
 interface TripDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(trip : TripEntity)
+    fun insert(trip: TripEntity)
 
     @Query("SELECT * FROM Trip")
-    fun getAllTrips() : List<TripEntity>
-
-    //GET DISTANCE FROM 2 POINTS AND LIST NEARBY TRIPS
+    fun getAllTrips(): List<TripEntity>
 }
